@@ -9,7 +9,8 @@ Make sure you have the following installed on your device:
 
 ## Setup and Installation
 - By creating a virtual environment first, or otherwise, install the required python libraries by running `pip install requirements.txt`.
-- Run the bash file `create_and_seed_database.sh`.
+- Create the database by running `psql postgres -c "CREATE DATABASE dota;"`.
+- Run the bash file `create_and_seed_database.sh`. You can re-run this file to reset your database whenever you want.
 
 ## Files Explained
 - `schema.sql`: Creates the initial tables in the database.

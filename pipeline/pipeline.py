@@ -79,6 +79,6 @@ def load_into_database(games: list[dict]):
 
 if __name__ == "__main__":
 
-    data = get_all_player_matches()
+    data = get_all_player_matches(ENV["PLAYER_ID"])
 
     load_into_database(clean_data(data))

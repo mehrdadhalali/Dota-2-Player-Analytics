@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS game, game_mode, hero;
+DROP TABLE IF EXISTS game, game_mode, hero, player_details;
 
 CREATE TABLE hero(
     hero_id SMALLINT UNIQUE NOT NULL,
@@ -26,4 +26,11 @@ CREATE TABLE game(
     PRIMARY KEY (game_id),
     FOREIGN KEY (hero_id) REFERENCES hero(hero_id),
     FOREIGN KEY (game_mode_id) REFERENCES game_mode(game_mode_id)
+);
+
+CREATE TABLE player_details (
+    detail_id SMALLINT GENERATED ALWAYS AS IDENTITY,
+    detail_name VARCHAR,
+    detail_value VARCHAR,
+    PRIMARY KEY (detail_id)
 );

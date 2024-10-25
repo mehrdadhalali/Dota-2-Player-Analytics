@@ -14,14 +14,27 @@ def get_connection() -> connection:
     )
 
 
-def get_all_data():
-    """Returns all of the data from the database."""
+def get_all_games_data():
+    """Returns all of the games data from the database."""
 
     conn = get_connection()
 
     with conn.cursor() as curs:
         curs.execute(
             "SELECT * FROM game JOIN hero USING (hero_id) JOIN game_mode USING (game_mode_id);")
+        data = curs.fetchall()
+    conn.close()
+    return data
+
+
+def get_player_data():
+    """Returns player data."""
+
+    conn = get_connection()
+
+    with conn.cursor() as curs:
+        curs.execute(
+            "SELECT * FROM player_details;")
         data = curs.fetchall()
     conn.close()
     return data

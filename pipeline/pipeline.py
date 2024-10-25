@@ -1,6 +1,5 @@
 
 from os import environ as ENV
-from json import dump, load
 from datetime import datetime
 
 import requests as req
@@ -21,6 +20,18 @@ def get_all_player_matches(player_id: int) -> list[dict]:
 
     data = res.json()
     return data
+
+
+def get_player_details(player_id: int) -> dict:
+    """Returns the player's details."""
+
+    res = req.get(f"{BASE_URL}/players/{player_id}/")
+    data = res.json()
+
+    return {
+        "name": data["profile"]["personaname"],
+        "avatar_url": data["profile"]["avatarfull"]
+    }
 
 
 def get_connection() -> connection:
@@ -60,7 +71,7 @@ def format_into_tuple(match: dict) -> tuple:
             hero_id, game_mode_id)
 
 
-def load_into_database(games: list[dict]):
+def load_into_database(games: list[dict], player_details: dict):
     """Inserts data into the database."""
 
     conn = get_connection()
@@ -73,6 +84,11 @@ def load_into_database(games: list[dict]):
 
     with conn.cursor() as curs:
         execute_values(curs, query, to_insert)
+
+    with conn.cursor() as curs:
+        curs.execute("""INSERT INTO player_details (detail_name, detail_value) VALUES
+                     ('name', %s), ('image_url', %s);""", (player_details["name"],
+                                                           player_details["avatar_url"]))
     conn.commit()
     conn.close()
 
@@ -80,5 +96,6 @@ def load_into_database(games: list[dict]):
 if __name__ == "__main__":
 
     data = get_all_player_matches(ENV["PLAYER_ID"])
+    player_data = get_player_details(ENV["PLAYER_ID"])
 
-    load_into_database(clean_data(data))
+    load_into_database(clean_data(data), player_data)

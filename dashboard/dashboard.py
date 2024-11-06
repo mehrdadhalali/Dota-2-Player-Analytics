@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-from charts import create_hero_bar_chart, turn_into_dataframe, calculate_win_rate
+from charts import create_hero_bar_chart, turn_into_dataframe, calculate_win_rate, calculate_averages
 from database import get_all_games_data, get_player_data
 
 st.set_page_config(layout="wide")
@@ -25,6 +25,12 @@ if __name__ == "__main__":
             wr_text = f"Win Rate: {calculate_win_rate(data)}%"
             st.markdown(f"<h3 style='text-align: center'> {wr_text} </h3>",
                         unsafe_allow_html=True)
+
+        with sub_cols[1]:
+            av_kills, av_deaths, av_assists = calculate_averages(data)
+            st.write(f"Average Kills: {round(av_kills, 2)}")
+            st.write(f"Average Deaths: {round(av_deaths, 2)}")
+            st.write(f"Average Assists: {round(av_assists, 2)}")
     with cols[1]:
         st.image(player_avatar)
 

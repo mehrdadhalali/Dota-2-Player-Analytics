@@ -41,3 +41,13 @@ def calculate_win_rate(df: pd.DataFrame) -> float:
     win_rate = win_count/(len(df))
 
     return round(win_rate*100, 2)
+
+
+def calculate_averages(df: pd.DataFrame) -> tuple[float]:
+    """Calculates average KDA."""
+
+    av_kills = df["kills"].mean()
+    av_deaths = df["deaths"].mean()
+    av_assists = df["assists"].mean()
+
+    return (av_kills, av_deaths, av_assists)

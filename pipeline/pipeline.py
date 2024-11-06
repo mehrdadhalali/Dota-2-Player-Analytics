@@ -61,8 +61,8 @@ def format_into_tuple(match: dict) -> tuple:
     duration = match["duration"]
     time = datetime.fromtimestamp(match["start_time"])
     kills = match["kills"]
-    deaths = match["kills"]
-    assists = match["kills"]
+    deaths = match["deaths"]
+    assists = match["assists"]
     hero_id = match["hero_id"]
     game_mode_id = match["game_mode"]
 

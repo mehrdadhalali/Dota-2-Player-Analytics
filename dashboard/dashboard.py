@@ -2,7 +2,8 @@
 
 import streamlit as st
 
-from charts import create_hero_bar_chart, turn_into_dataframe, calculate_win_rate, calculate_averages
+from charts import (create_hero_bar_chart, turn_into_dataframe, calculate_win_rate, calculate_averages,
+                    create_time_of_day_bar_chart)
 from database import get_all_games_data, get_player_data
 
 st.set_page_config(layout="wide")
@@ -38,4 +39,8 @@ if __name__ == "__main__":
         "<style>.line { border: 0.5px solid; margin: 0; }</style><div class='line'></div>",
         unsafe_allow_html=True)
 
-    st.altair_chart(create_hero_bar_chart(data))
+    cols = st.columns([1, 2])
+    with cols[0]:
+        st.altair_chart(create_hero_bar_chart(data))
+    with cols[1]:
+        st.altair_chart(create_time_of_day_bar_chart(data))

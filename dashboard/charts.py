@@ -51,3 +51,21 @@ def calculate_averages(df: pd.DataFrame) -> tuple[float]:
     av_assists = df["assists"].mean()
 
     return (av_kills, av_deaths, av_assists)
+
+
+def create_time_of_day_bar_chart(df: pd.DataFrame) -> alt.Chart:
+    """Creates a chart of time of day and win-lose."""
+
+    time_wl = df[["time", "won"]]
+    time_wl["time"] = time_wl["time"].apply(lambda x: x.hour)
+    time_all = time_wl.groupby(["time", "won"]).size().reset_index()
+    time_all = time_all.rename(columns={0: "count"})
+
+    return alt.Chart(time_all, title=alt.Title("Time of Day Played", color="#FFFFFF",
+                                               anchor="middle")).mark_bar(size=15).encode(
+        x=alt.X("time", title="Time of Day", scale=alt.Scale(domain=[0, 23])),
+        y=alt.Y("count", title="Number of games"),
+        color=alt.Color("won", scale=alt.Scale(range=['#ff0000', '#32CD32']))
+    ).properties(
+        width=800
+    )
